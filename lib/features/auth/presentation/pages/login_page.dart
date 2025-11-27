@@ -15,6 +15,9 @@ class LoginPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => AuthBloc(
         loginUseCase: getIt(),
+        registerUseCase: getIt(),
+        logoutUseCase: getIt(),
+        checkAuthUseCase: getIt(),
       ),
       child: const LoginView(),
     );
@@ -44,7 +47,7 @@ class _LoginViewState extends State<LoginView> {
   void _onLoginPressed() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
-            AuthEvent.loginRequested(
+            LoginRequested(
               email: _emailController.text.trim(),
               password: _passwordController.text,
             ),
@@ -211,7 +214,7 @@ class _LoginViewState extends State<LoginView> {
                     SizedBox(height: 16.h),
                     TextButton(
                       onPressed: () {
-                        // Navigate to forgot password
+                        context.go(AppRouter.forgotPassword);
                       },
                       child: const Text('Forgot Password?'),
                     ),
@@ -230,6 +233,25 @@ class _LoginViewState extends State<LoginView> {
                         foregroundColor: Colors.orange,
                         side: BorderSide(color: Colors.orange.withOpacity(0.5)),
                       ),
+                    ),
+                    
+                    SizedBox(height: 16.h),
+                    
+                    // Create Account Link
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Don\'t have an account? ',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.go(AppRouter.register);
+                          },
+                          child: const Text('Sign Up'),
+                        ),
+                      ],
                     ),
                   ],
                 ),

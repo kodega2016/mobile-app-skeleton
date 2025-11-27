@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
+import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 
 class AppRouter {
   static const String splash = '/';
   static const String login = '/login';
+  static const String register = '/register';
+  static const String forgotPassword = '/forgot-password';
   static const String home = '/home';
 
   late final GoRouter router = GoRouter(
@@ -30,6 +34,24 @@ class AppRouter {
           context: context,
           state: state,
           child: const LoginPage(),
+        ),
+      ),
+      GoRoute(
+        path: register,
+        name: 'register',
+        pageBuilder: (context, state) => _buildPageWithDefaultTransition(
+          context: context,
+          state: state,
+          child: const RegisterPage(),
+        ),
+      ),
+      GoRoute(
+        path: forgotPassword,
+        name: 'forgotPassword',
+        pageBuilder: (context, state) => _buildPageWithDefaultTransition(
+          context: context,
+          state: state,
+          child: const ForgotPasswordPage(),
         ),
       ),
       GoRoute(

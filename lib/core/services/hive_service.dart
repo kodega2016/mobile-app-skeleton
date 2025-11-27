@@ -8,8 +8,16 @@ class HiveService {
   static const String userBoxName = 'user_box';
   static const String settingsBoxName = 'settings_box';
   static const String cacheBoxName = 'cache_box';
+  
+  // Static flag to track initialization across all instances
+  static bool _isInitialized = false;
 
   Future<void> init() async {
+    if (_isInitialized) {
+      _logger.d('Hive already initialized, skipping...');
+      return;
+    }
+    
     try {
       // Register adapters here
       // Hive.registerAdapter(UserAdapter());
@@ -17,14 +25,24 @@ class HiveService {
       // Open boxes only if not already open
       if (!Hive.isBoxOpen(userBoxName)) {
         await Hive.openBox(userBoxName);
+        _logger.d('Opened $userBoxName');
+      } else {
+        _logger.d('$userBoxName already open');
       }
       if (!Hive.isBoxOpen(settingsBoxName)) {
         await Hive.openBox(settingsBoxName);
+        _logger.d('Opened $settingsBoxName');
+      } else {
+        _logger.d('$settingsBoxName already open');
       }
       if (!Hive.isBoxOpen(cacheBoxName)) {
         await Hive.openBox(cacheBoxName);
+        _logger.d('Opened $cacheBoxName');
+      } else {
+        _logger.d('$cacheBoxName already open');
       }
       
+      _isInitialized = true;
       _logger.i('Hive initialized successfully');
     } catch (e) {
       _logger.e('Error initializing Hive: $e');
@@ -33,21 +51,21 @@ class HiveService {
   }
 
   // Generic operations
-  Box<T> getBox<T>(String boxName) {
+  Box getBox(String boxName) {
     if (!Hive.isBoxOpen(boxName)) {
       throw Exception('Box $boxName is not open. Call init() first.');
     }
-    return Hive.box<T>(boxName);
+    return Hive.box(boxName);
   }
 
   Future<void> put<T>(String boxName, String key, T value) async {
-    final box = getBox<T>(boxName);
+    final box = getBox(boxName);
     await box.put(key, value);
   }
 
   T? get<T>(String boxName, String key) {
-    final box = getBox<T>(boxName);
-    return box.get(key);
+    final box = getBox(boxName);
+    return box.get(key) as T?;
   }
 
   Future<void> delete(String boxName, String key) async {
@@ -86,7 +104,7 @@ class HiveService {
       final data = get(userBoxName, 'current_user');
       if (data == null) return null;
       if (data is Map) {
-        return Map<String, dynamic>.from(data as Map);
+        return Map<String, dynamic>.from(data);
       }
       return null;
     } catch (e) {

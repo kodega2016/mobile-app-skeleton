@@ -7,6 +7,12 @@ class AuthEvent with _$AuthEvent {
     required String password,
   }) = LoginRequested;
 
+  const factory AuthEvent.registerRequested({
+    required String email,
+    required String password,
+    required String name,
+  }) = RegisterRequested;
+
   const factory AuthEvent.logoutRequested() = LogoutRequested;
 
   const factory AuthEvent.checkAuthStatus() = CheckAuthStatus;

@@ -179,7 +179,7 @@ class HomeTabView extends StatelessWidget {
               onTap: () async {
                 final notificationService = getIt<NotificationService>();
                 await notificationService.showNotification(
-                  id: DateTime.now().millisecondsSinceEpoch,
+                  id: DateTime.now().millisecondsSinceEpoch % 2147483647,
                   title: 'Test Notification',
                   body: 'This is a test notification from Flutter Boilerplate!',
                 );

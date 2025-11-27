@@ -12,7 +12,11 @@ import '../services/hive_service.dart';
 import '../services/notification_service.dart';
 import '../services/secure_storage_service.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
+import '../../features/auth/domain/usecases/check_auth_usecase.dart';
+import '../../features/auth/domain/usecases/get_current_user_usecase.dart';
 import '../../features/auth/domain/usecases/login_usecase.dart';
+import '../../features/auth/domain/usecases/logout_usecase.dart';
+import '../../features/auth/domain/usecases/register_usecase.dart';
 
 final getIt = GetIt.instance;
 
@@ -73,6 +77,22 @@ Future<void> configureDependencies() async {
   // Auth Feature - Use Cases
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<AuthRepository>()),
+  );
+
+  getIt.registerLazySingleton<RegisterUseCase>(
+    () => RegisterUseCase(getIt<AuthRepository>()),
+  );
+
+  getIt.registerLazySingleton<LogoutUseCase>(
+    () => LogoutUseCase(getIt<AuthRepository>()),
+  );
+
+  getIt.registerLazySingleton<CheckAuthUseCase>(
+    () => CheckAuthUseCase(getIt<AuthRepository>()),
+  );
+
+  getIt.registerLazySingleton<GetCurrentUserUseCase>(
+    () => GetCurrentUserUseCase(getIt<AuthRepository>()),
   );
 
   // Initialize services that need async setup
