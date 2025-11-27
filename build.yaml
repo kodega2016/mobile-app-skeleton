@@ -1,0 +1,19 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        enabled: true
+        options:
+          # Generate copyWith, toString, equality
+          copyWith: true
+          equal: true
+          
+      json_serializable:
+        enabled: true
+        options:
+          # Generate fromJson and toJson methods
+          explicit_to_json: true
+          field_rename: snake
+          
+      hive_generator:
+        enabled: true
