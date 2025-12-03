@@ -31,8 +31,9 @@ dependencies:
   json_annotation: ^4.8.1
 
   # Notifications
-  flutter_local_notifications: ^17.0.0
-  firebase_messaging: ^14.7.6
+  flutter_local_notifications: ^18.0.0
+  firebase_core: ^3.8.1
+  firebase_messaging: ^15.1.6
 
   # Routing
   go_router: ^13.0.0
